@@ -116,44 +116,261 @@ import {
 
 // Ex 6 - extra 2
 
+// function PokemonInfo({ pokemonName }) {
+//   const [pokemon, setPokemon] = React.useState(null);
+//   const [error, setError] = React.useState(null);
+//   const [status, setStatus] = React.useState('idle');
+
+//   React.useEffect(() => {
+//     if (!pokemonName) {
+//       return;
+//     }
+//     setPokemon(null);
+//     setError(null);
+//     setStatus('pending');
+//     fetchPokemon(pokemonName)
+//       .then(pokomonData => {
+//         setPokemon(pokomonData);
+//         setStatus('resolved');
+//       })
+//       .catch(error => {
+//         setError(error);
+//         setStatus('rejected');
+//       });
+//   }, [pokemonName, setError, setStatus]);
+
+//   if (status === 'rejected') {
+//     return (
+//       <div role='alert'>
+//         There was an error:{' '}
+//         <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>{' '}
+//       </div>
+//     );
+//   }
+
+//   if (status === 'idle') {
+//     return 'Submit a pokemon';
+//   } else if (status === 'pending') {
+//     return <PokemonInfoFallback name={pokemonName} />;
+//   } else {
+//     return <PokemonDataView pokemon={pokemon} />;
+//   }
+// }
+
+// function App() {
+//   const [pokemonName, setPokemonName] = React.useState('');
+
+//   function handleSubmit(newPokemonName) {
+//     setPokemonName(newPokemonName);
+//   }
+
+//   return (
+//     <div className='pokemon-info-app'>
+//       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
+//       <hr />
+//       <div className='pokemon-info'>
+//         <PokemonInfo pokemonName={pokemonName} />
+//       </div>
+//     </div>
+//   );
+// }
+
+// Ex 6 - extra 3
+
+// function PokemonInfo({ pokemonName }) {
+//   const [state, setState] = React.useState({
+//     status: 'idle',
+//     pokemon: null,
+//     error: null,
+//   });
+
+//   React.useEffect(() => {
+//     if (!pokemonName) {
+//       return;
+//     }
+//     setState({ status: 'pending', pokemon: null });
+//     fetchPokemon(pokemonName)
+//       .then(pokemonData => {
+//         setState({ status: 'resolved', pokemon: pokemonData });
+//       })
+//       .catch(error => {
+//         setState({ status: 'rejected', error: error });
+//       });
+//   }, [pokemonName, setState]);
+
+//   if (state.status === 'rejected') {
+//     return (
+//       <div role='alert'>
+//         There was an error:{' '}
+//         <pre style={{ whiteSpace: 'normal' }}>{state.error.message}</pre>{' '}
+//       </div>
+//     );
+//   }
+
+//   if (state.status === 'idle') {
+//     return 'Submit a pokemon';
+//   } else if (state.status === 'pending') {
+//     return <PokemonInfoFallback name={pokemonName} />;
+//   } else {
+//     return <PokemonDataView pokemon={state.pokemon} />;
+//   }
+// }
+
+// function App() {
+//   const [pokemonName, setPokemonName] = React.useState('');
+
+//   function handleSubmit(newPokemonName) {
+//     setPokemonName(newPokemonName);
+//   }
+
+//   return (
+//     <div className='pokemon-info-app'>
+//       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
+//       <hr />
+//       <div className='pokemon-info'>
+//         <PokemonInfo pokemonName={pokemonName} />
+//       </div>
+//     </div>
+//   );
+// }
+
+// Ex 6 - extra 4
+
+// class ErrorBoundary extends React.Component {
+//   state = { error: null };
+//   static getDerivedStateFromError(error) {
+//     return { error };
+//   }
+
+//   render() {
+//     if (this.state.error) {
+//       return (
+//         <div>
+//           <h1>There was an error: </h1>
+//           <p>{this.state.error.message}</p>
+//         </div>
+//       );
+//     }
+//     return this.props.children;
+//   }
+// }
+
+// function PokemonInfo({ pokemonName }) {
+//   const [state, setState] = React.useState({
+//     status: 'idle',
+//     pokemon: null,
+//     error: null,
+//   });
+
+//   React.useEffect(() => {
+//     if (!pokemonName) {
+//       return;
+//     }
+//     setState({ status: 'pending', pokemon: null });
+//     fetchPokemon(pokemonName)
+//       .then(pokemonData => {
+//         setState({ status: 'resolved', pokemon: pokemonData });
+//       })
+//       .catch(error => {
+//         setState({ status: 'rejected', error: error });
+//       });
+//   }, [pokemonName, setState]);
+
+//   if (state.status === 'rejected') {
+//     return (
+//       <div role='alert'>
+//         There was an error:{' '}
+//         <pre style={{ whiteSpace: 'normal' }}>{state.error.message}</pre>{' '}
+//       </div>
+//     );
+//   }
+
+//   if (state.status === 'idle') {
+//     return 'Submit a pokemon';
+//   } else if (state.status === 'pending') {
+//     return <PokemonInfoFallback name={pokemonName} />;
+//   } else {
+//     return <PokemonDataView pokemon={state.pokemon} />;
+//   }
+// }
+
+// function App() {
+//   const [pokemonName, setPokemonName] = React.useState('');
+
+//   function handleSubmit(newPokemonName) {
+//     setPokemonName(newPokemonName);
+//   }
+
+//   return (
+//     <div className='pokemon-info-app'>
+//       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
+//       <hr />
+//       <div className='pokemon-info'>
+//         <ErrorBoundary>
+//           <PokemonInfo pokemonName={pokemonName} />
+//         </ErrorBoundary>
+//       </div>
+//     </div>
+//   );
+// }
+
+// Ex 6 - extra 5
+
+class ErrorBoundary extends React.Component {
+  state = { error: null };
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div>
+          <h1>There was an error: </h1>
+          <p>{this.state.error.message}</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function PokemonInfo({ pokemonName }) {
-  const [pokemon, setPokemon] = React.useState(null);
-  const [error, setError] = React.useState(null);
-  const [status, setStatus] = React.useState('idle');
+  const [state, setState] = React.useState({
+    status: 'idle',
+    pokemon: null,
+    error: null,
+  });
 
   React.useEffect(() => {
     if (!pokemonName) {
       return;
     }
-    setPokemon(null);
-    setError(null);
-    setStatus('pending');
+    setState({ status: 'pending', pokemon: null });
     fetchPokemon(pokemonName)
-      .then(pokomonData => {
-        setPokemon(pokomonData);
-        setStatus('resolved');
+      .then(pokemonData => {
+        setState({ status: 'resolved', pokemon: pokemonData });
       })
       .catch(error => {
-        setError(error);
-        setStatus('rejected');
+        setState({ status: 'rejected', error: error });
       });
-  }, [pokemonName, setError, setStatus]);
+  }, [pokemonName, setState]);
 
-  if (status === 'rejected') {
+  if (state.status === 'rejected') {
     return (
       <div role='alert'>
         There was an error:{' '}
-        <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>{' '}
+        <pre style={{ whiteSpace: 'normal' }}>{state.error.message}</pre>{' '}
       </div>
     );
   }
 
-  if (status === 'idle') {
+  if (state.status === 'idle') {
     return 'Submit a pokemon';
-  } else if (status === 'pending') {
+  } else if (state.status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />;
   } else {
-    return <PokemonDataView pokemon={pokemon} />;
+    return <PokemonDataView pokemon={state.pokemon} />;
   }
 }
 
@@ -169,7 +386,9 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className='pokemon-info'>
-        <PokemonInfo pokemonName={pokemonName} />
+        <ErrorBoundary key={pokemonName}>
+          <PokemonInfo pokemonName={pokemonName} />
+        </ErrorBoundary>
       </div>
     </div>
   );
